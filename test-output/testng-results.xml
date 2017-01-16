@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="6604" started-at="2017-01-16T12:49:09Z" finished-at="2017-01-16T12:49:15Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="6604" started-at="2017-01-16T12:49:09Z" finished-at="2017-01-16T12:49:15Z">
+      <class name="com.globantu.automation.marcos_irisarri.NewTest">
+        <test-method status="PASS" signature="f()[pri:0, instance:com.globantu.automation.marcos_irisarri.NewTest@6767c1fc]" name="f" duration-ms="6579" started-at="2017-01-16T12:49:09Z" finished-at="2017-01-16T12:49:15Z">
+        </test-method> <!-- f -->
+      </class> <!-- com.globantu.automation.marcos_irisarri.NewTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

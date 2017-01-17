@@ -1,2 +1,9 @@
-com\globantu\automation\marcos_irisarri\NewTest.class
-com\globantu\automation\marcos_irisarri\App.class
+com\globantu\automation\marcos_irisarri\framework\web\Browser.class
+com\globantu\automation\marcos_irisarri\framework\web\Browser$1.class
+com\globantu\automation\marcos_irisarri\framework\web\Browser$3.class
+com\globantu\automation\marcos_irisarri\framework\runner\WebAutomationTestNGSuite.class
+com\globantu\automation\marcos_irisarri\framework\selenium\Selenium.class
+com\globantu\automation\marcos_irisarri\framework\logging\Logging.class
+com\globantu\automation\marcos_irisarri\framework\runner\GenericWebAutomationTest.class
+com\globantu\automation\marcos_irisarri\framework\web\Browser$2.class
+com\globantu\automation\marcos_irisarri\framework\web\PageObjectBase.class

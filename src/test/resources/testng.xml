@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Travelocity test suite" verbose="2">
+    <test name="Travelocity Tests">
+        <parameter name="browser" value="CHROME"/>
+        <classes>
+	       <class name="com.globantu.automation.marcos_irisarri.testng.TravelocityTests" />
+	    </classes>
+    </test>
+</suite>

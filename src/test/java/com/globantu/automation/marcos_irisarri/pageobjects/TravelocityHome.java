@@ -3,41 +3,23 @@ package com.globantu.automation.marcos_irisarri.pageobjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class TravelocityHome {
+import com.globantu.automation.marcos_irisarri.framework.web.PageObjectBase;
 
-	WebDriver driver;
+public class TravelocityHome extends PageObjectBase {
+
+	private static final String TRAVELOCITY_URL = "https://www.travelocity.com";
 	
-	@FindBy(id="package-origin")
-	WebElement origin;
-	
-	@FindBy(id="package-destination")
-	WebElement destination;
-	
-	@FindBy(id="package-departing")
-	WebElement departureDate;
-	
-	@FindBy(id="package-returning")
-	WebElement returnDate;
-	
-	@FindBy(id="search-button")
-	WebElement searchButton;
+	@FindBy(id="tab-flight-tab")
+	private WebElement flightTab;
 	
 	public TravelocityHome(WebDriver driver){
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
+		super(driver);
+        driver.navigate().to(TRAVELOCITY_URL);
 	}
 	
-	public void setOrigin(String strOrigin){
-		origin.sendKeys(strOrigin);
-	}
-	
-	public void setDestination(String strDestination){
-		origin.sendKeys(strDestination);
-	}
-	
-	public void clickSearchButton(){
-		searchButton.click();
-	}
+	public FlightSearchForm clickOnFlightTab() {
+        click(flightTab);
+        return new FlightSearchForm(getDriver());
+    }
 }

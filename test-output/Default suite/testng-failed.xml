@@ -3,11 +3,12 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)" preserve-order="true">
     <classes>
-      <class name="com.globantu.automation.marcos_irisarri.NewTest">
+      <class name="com.globantu.automation.marcos_irisarri.TravelocityTests">
         <methods>
-          <include name="f"/>
+          <include name="setup"/>
+          <include name="Exercise1"/>
         </methods>
-      </class> <!-- com.globantu.automation.marcos_irisarri.NewTest -->
+      </class> <!-- com.globantu.automation.marcos_irisarri.TravelocityTests -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

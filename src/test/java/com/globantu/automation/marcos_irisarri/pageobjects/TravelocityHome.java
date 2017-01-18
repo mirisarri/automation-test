@@ -13,6 +13,12 @@ public class TravelocityHome extends PageObjectBase {
 	@FindBy(id="tab-flight-tab")
 	private WebElement flightTab;
 	
+	@FindBy(id="tab-package-tab")
+	private WebElement flightPlusHotelTab;
+	
+	@FindBy(id="primary-header-hotel")
+	private WebElement hotelsMenu;
+	
 	public TravelocityHome(WebDriver driver){
 		super(driver);
         driver.navigate().to(TRAVELOCITY_URL);
@@ -22,4 +28,14 @@ public class TravelocityHome extends PageObjectBase {
         click(flightTab);
         return new FlightSearchForm(getDriver());
     }
+	
+	public FlightPlusHotelSearchForm clickOnFlightPlusHotelTab() {
+        click(flightPlusHotelTab);
+        return new FlightPlusHotelSearchForm(getDriver());
+    }
+	
+	public HotelSearchForm clickOnHotelsMenu() {
+		click(hotelsMenu);
+		return new HotelSearchForm(getDriver());
+	}
 }

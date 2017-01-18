@@ -10,8 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globantu.automation.marcos_irisarri.framework.web.PageObjectBase;
 
-public class FlightResultsPage extends PageObjectBase {
-
+public class HotelResultsPage extends PageObjectBase {
+/*
 	@FindBy(id="departure-airport-1")
 	private WebElement txtDeparture;
 	
@@ -32,11 +32,11 @@ public class FlightResultsPage extends PageObjectBase {
 	
 	@FindBy(id="flightModuleList")
 	private WebElement lstFlights;
-	
-	public FlightResultsPage(WebDriver driver) {
+	*/
+	public HotelResultsPage(WebDriver driver) {
         super(driver);
     }
-	
+	/*
 	public String getDeparture() {
 		return txtDeparture.getAttribute("value");
 	}
@@ -100,5 +100,5 @@ public class FlightResultsPage extends PageObjectBase {
 		selectFlight(departurePositionInList);
 		selectFlight(returnPositionInList);
 		return new TripDetails(getDriver());
-	}
+	}*/
 }

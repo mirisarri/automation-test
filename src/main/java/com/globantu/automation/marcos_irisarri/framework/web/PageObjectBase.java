@@ -59,6 +59,11 @@ public abstract class PageObjectBase {
         getWait().until(elementToBeClickable(element));
         new Select(element).selectByVisibleText(text);
     }
+    
+    protected void selectByIndex(WebElement element, int index) {
+        getWait().until(elementToBeClickable(element));
+        new Select(element).selectByIndex(index);
+    }
 
     protected boolean elementExists(WebElement element) {
         try {

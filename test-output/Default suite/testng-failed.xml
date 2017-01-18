@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Failed suite [Default suite]">
-  <test name="Default test(failed)" preserve-order="true">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <test name="Default test(failed)">
     <classes>
-      <class name="com.globantu.automation.marcos_irisarri.TravelocityTests">
+      <class name="com.globantu.automation.marcos_irisarri.testng.TravelocityTests">
         <methods>
-          <include name="setup"/>
-          <include name="Exercise1"/>
+          <include name="flightSearch"/>
+          <include name="tearDown"/>
         </methods>
-      </class> <!-- com.globantu.automation.marcos_irisarri.TravelocityTests -->
+      </class> <!-- com.globantu.automation.marcos_irisarri.testng.TravelocityTests -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

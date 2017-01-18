@@ -1,6 +1,12 @@
 package com.globantu.automation.marcos_irisarri.pageobjects;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globantu.automation.marcos_irisarri.framework.web.PageObjectBase;
 
@@ -9,60 +15,88 @@ import com.globantu.automation.marcos_irisarri.framework.web.PageObjectBase;
  */
 public class FlightResultsPage extends PageObjectBase {
 
+	@FindBy(id="departure-airport-1")
+	private WebElement txtDeparture;
+	
+	@FindBy(id="arrival-airport-1")
+	private WebElement txtArrival;
+	
+	@FindBy(id="departure-date-1")
+	private WebElement txtDepartureDate;
+	
+	@FindBy(id="return-date-1")
+	private WebElement txtReturnDate;
+	
+	@FindBy(name="route-type")
+	private List<WebElement> routeTypes;
+	
+	@FindBy(name="sort")
+	private WebElement cmbSort;
+	
+	@FindBy(id="flightModuleList")
+	private WebElement lstFlights;
+	
 	public FlightResultsPage(WebDriver driver) {
         super(driver);
     }
-	/*
-    private final By notifications = By.cssSelector("div.notification");
-
-    @FindBy(css = "button[data-test-id='select-button']")
-    private List<WebElement> selectButtons;
-
-    private PopUp flightPlusHotelPopUp;
-
-    public FlightResultsPage(WebDriver driver) {
-        super(driver);
-        this.flightPlusHotelPopUp = new PopUp(getDriver());
-    }
-
-    public FlightResultsPage selectDepartureFlight(int index) {
-        selectFlight(index);
-        return new FlightResultsPage(getDriver());
-    }
-
-    public ReviewTripPage selectReturnFlight(int index) {
-        selectFlight(index);
-        return new ReviewTripPage(getDriver());
-    }
-
-    private void selectFlight(int index) {
-        getWait().until(visibilityOfAllElements(selectButtons));
-        click(selectButtons.get(index - 1));
-    }
-*/
-    /**
-     * When clicking on a Select button in Results page there may be the following issues that need to be addressed:
-     * <p>
-     * 1 - A huge modal pop up MAY appear *before* click on it
-     * 2 - Depending on the screen resolution, a toast/small notification may appear on top of the Select buttons
-     * 2a - This toast messages does not have a dismiss option for IE
-     * 2b - This toast messages fade away after a couple of seconds
-     * 3 - A huge modal pop up MAY appear *after* click on it
-     *
-     * @param element to click on
-     */
-  /*  @Override
-    protected void click(WebElement element) {
-        if (flightPlusHotelPopUp.isVisible()) {
-            flightPlusHotelPopUp.dismiss();
-        }
-
-        getWait().until(invisibilityOfElementLocated(notifications));
-
-        super.click(element);
-
-        if (flightPlusHotelPopUp.isVisible()) {
-            flightPlusHotelPopUp.dismiss();
-        }
-    }*/
+	
+	public String getDeparture() {
+		return txtDeparture.getAttribute("value");
+	}
+	
+	public String getArrival() {
+		return txtArrival.getAttribute("value");
+	}
+	
+	public String getDepartureDate() {
+		return txtDepartureDate.getAttribute("value");
+	}
+	
+	public String getReturnDate() {
+		return txtReturnDate.getAttribute("value");
+	}
+	
+	public String getRouteType() {
+		String selectedRouteType = "";
+		for (WebElement routeType : routeTypes) {
+			if(routeType.isSelected()) {
+				selectedRouteType = routeType.getAttribute("value");
+			}
+		}
+		
+		return selectedRouteType;
+	}
+	
+	public void sortResults(String criteria) {
+		selectByVisibleText(cmbSort, criteria);
+		getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'Sorting by')]")));
+	}
+	
+	public boolean isSortedByDurationAsc() {
+		
+		List<WebElement> times = lstFlights.findElements(By.cssSelector(".primary.duration-emphasis"));
+		if(!times.isEmpty()){
+			
+			int prevHours = 0;
+			int prevMinutes = 0;
+			for(WebElement time : times) {
+				int newHours = new Integer(time.getText().split(" ")[0].split("h")[0]);
+				int newMinutes = new Integer(time.getText().split(" ")[1].split("m")[0]);
+				if(newHours < prevHours || (newHours == prevHours && newMinutes < prevMinutes)) {
+					return false;
+				}
+				prevHours = newHours;
+				prevMinutes = newMinutes;
+			}
+		}
+		return true;
+	}
+	
+	public void selectFlight(int numberInList) {
+		WebElement btnSelect = lstFlights.findElements(By.cssSelector(".btn-secondary.btn-action.t-select-btn")).get(numberInList-1);
+		click(btnSelect);
+		getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'Finding return flights')]")));
+	}
+	
+	
 }

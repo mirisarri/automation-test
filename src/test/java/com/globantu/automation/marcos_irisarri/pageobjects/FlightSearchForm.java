@@ -1,8 +1,10 @@
 package com.globantu.automation.marcos_irisarri.pageobjects;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.util.List;
 
+import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,8 +12,6 @@ import org.openqa.selenium.support.FindBy;
 import com.globantu.automation.marcos_irisarri.framework.web.PageObjectBase;
 
 public class FlightSearchForm extends PageObjectBase {
-
-	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	
 	@FindBy(id = "flight-origin")
     private WebElement txtOrigin;
@@ -25,7 +25,7 @@ public class FlightSearchForm extends PageObjectBase {
     @FindBy(id = "flight-returning")
     private WebElement txtReturn;
 
-	@FindBy(className="datepicker-paging datepicker-next btn-paging btn-secondary next")
+    @FindBy(xpath="(//button[@type='button'])[6]")
 	private WebElement btnDatePickerNextMonth;
 	
 	@FindBy(id="flight-adults")
@@ -41,40 +41,51 @@ public class FlightSearchForm extends PageObjectBase {
         super(driver);
     }
 	
-	public FlightResultsPage doSearch(String origin, String destination, int daysTilTrip, int daysToStayOnDestination, int adults, int children) {
+	public FlightResultsPage doSearch(String origin, String destination, LocalDate departDate, LocalDate returnDate, int adults, int children) {
 
         type(txtOrigin, origin);
         type(txtDestination, destination);
+        
+        //Validate departure date is before return date
+        Assert.assertTrue(departDate.isBefore(returnDate));
+        
+        //Validate departure date is at least 2 months in the future
+        LocalDate today = LocalDate.now();
+        Assert.assertTrue(departDate.isAfter(today.plusMonths(2)));
+        
+        selectDateInDatePicker(txtDeparture, departDate, today);
+        selectDateInDatePicker(txtReturn, returnDate, departDate);
 
-        LocalDateTime departDate = dateFromToday(daysTilTrip);
-        LocalDateTime returnDate = dateFromToday(daysTilTrip + daysToStayOnDestination);
-
-        type(txtDeparture, departDate.format(DATE_FORMAT));
-        type(txtReturn, returnDate.format(DATE_FORMAT));
-
-        selectByVisibleText(cmbAdults, adults + "");
-        selectByVisibleText(cmbChildren, children + "");
+        selectByIndex(cmbAdults, adults-1);
+        selectByIndex(cmbChildren, children);
         
         click(btnSearch);
 
         return new FlightResultsPage(getDriver());
     }
 	
-	private LocalDateTime dateFromToday(int plusDays) {
-        // today + <plusDays> days
-        return LocalDateTime.now().plusDays(plusDays);
-    }
-	
-	
-	/*
-	public void setDepartureDate(Calendar selectedDate){
-		Assert.assertTrue(selectedDate.after(Calendar.getInstance()));
-		departureDate.click();
-		int selectedMonth = selectedDate.get(Calendar.MONTH);
-		int monthDiff = selectedMonth - Calendar.getInstance().get(Calendar.MONTH);
-		while(monthDiff > 0){
-			datePickerNextButton.click();
-			monthDiff--;
-		}
-	}*/
+	private void selectDateInDatePicker(WebElement txtDate, LocalDate selectDate, LocalDate currentDateSelected){
+		
+		//Display date picker
+		click(txtDate);
+        
+		//Move forward in months
+		int monthsDiff = selectDate.getMonthValue() - currentDateSelected.getMonthValue();
+        while(monthsDiff > 0) {
+        	click(btnDatePickerNextMonth);
+        	monthsDiff--;
+        }
+        
+        //Select the day
+        List<WebElement> days = getDriver().findElements(By.className("datepicker-cal-date"));
+        for(WebElement day : days){
+        	if(new Integer(day.getAttribute("data-year")) == selectDate.getYear() && 
+        			new Integer(day.getAttribute("data-month")) == selectDate.getMonthValue() - 1 && 
+        			new Integer(day.getAttribute("data-day")) == selectDate.getDayOfMonth()){
+        		
+        		day.click();
+        		break;
+        	}
+        }
+	}
 }

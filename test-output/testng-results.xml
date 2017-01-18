@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Travelocity test suite" duration-ms="23163" started-at="2017-01-17T18:26:15Z" finished-at="2017-01-17T18:26:39Z">
+  <suite name="Travelocity test suite" duration-ms="43002" started-at="2017-01-18T19:23:33Z" finished-at="2017-01-18T19:24:16Z">
     <groups>
     </groups>
-    <test name="Travelocity Tests" duration-ms="23163" started-at="2017-01-17T18:26:15Z" finished-at="2017-01-17T18:26:39Z">
+    <test name="Travelocity Tests" duration-ms="43002" started-at="2017-01-18T19:23:33Z" finished-at="2017-01-18T19:24:16Z">
       <class name="com.globantu.automation.marcos_irisarri.testng.TravelocityTests">
-        <test-method status="PASS" signature="setUp(com.globantu.automation.marcos_irisarri.framework.web.Browser)[pri:0, instance:com.globantu.automation.marcos_irisarri.testng.TravelocityTests@3c72f59f]" name="setUp" is-config="true" duration-ms="16717" started-at="2017-01-17T15:26:15Z" finished-at="2017-01-17T15:26:32Z">
+        <test-method status="PASS" signature="setUp(com.globantu.automation.marcos_irisarri.framework.web.Browser)[pri:0, instance:com.globantu.automation.marcos_irisarri.testng.TravelocityTests@124c278f]" name="setUp" is-config="true" duration-ms="17476" started-at="2017-01-18T16:23:33Z" finished-at="2017-01-18T16:23:50Z">
           <params>
             <param index="0">
               <value>
@@ -18,11 +18,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="flightSearch()[pri:0, instance:com.globantu.automation.marcos_irisarri.testng.TravelocityTests@3c72f59f]" name="flightSearch" duration-ms="5348" started-at="2017-01-17T15:26:32Z" finished-at="2017-01-17T15:26:37Z">
+        <test-method status="PASS" signature="flightSearch()[pri:0, instance:com.globantu.automation.marcos_irisarri.testng.TravelocityTests@124c278f]" name="flightSearch" duration-ms="24437" started-at="2017-01-18T16:23:50Z" finished-at="2017-01-18T16:24:15Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- flightSearch -->
-        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.globantu.automation.marcos_irisarri.testng.TravelocityTests@3c72f59f]" name="tearDown" is-config="true" duration-ms="1076" started-at="2017-01-17T15:26:37Z" finished-at="2017-01-17T15:26:39Z">
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.globantu.automation.marcos_irisarri.testng.TravelocityTests@124c278f]" name="tearDown" is-config="true" duration-ms="1071" started-at="2017-01-18T16:24:15Z" finished-at="2017-01-18T16:24:16Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

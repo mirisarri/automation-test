@@ -9,7 +9,7 @@
         <methods>
           <include name="tearDown"/>
           <include name="setUp"/>
-          <include name="flightBookingTest"/>
+          <include name="flightBookingWithHotelAndCarTest"/>
         </methods>
       </class> <!-- com.globantu.automation.marcos_irisarri.testng.TravelocityTests -->
     </classes>

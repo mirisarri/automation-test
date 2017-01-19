@@ -1,7 +1,5 @@
 package com.globantu.automation.marcos_irisarri.pageobjects;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,8 +16,15 @@ public class FlightPlusHotelResultsPage extends PageObjectBase {
 	@FindBy(css=".destination.fakeLink")
 	private WebElement btnDestination;
 	
+	@FindBy(className="section-header-main")
+	private WebElement sectionHeader;
+	
+	@FindBy(className="msi-active-state")
+	private WebElement activeTab;
+	
 	public FlightPlusHotelResultsPage(WebDriver driver) {
         super(driver);
+        getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.className("imgLoading")));
     }
 	
 	public String getTitle() {
@@ -32,6 +37,14 @@ public class FlightPlusHotelResultsPage extends PageObjectBase {
 	
 	public String getDestination() {
 		return btnDestination.getText();
+	}
+	
+	public String getSectionHeader() {
+		return sectionHeader.getText();
+	}
+	
+	public String getActiveTabText() {
+		return activeTab.findElement(By.className("msi-label")).getText();
 	}
 	/*
 	public void sortResults(String criteria) {

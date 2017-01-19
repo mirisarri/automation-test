@@ -21,7 +21,7 @@ public class TravelocityTests extends WebAutomationTestNGSuite<TravelocityHome> 
 	
 	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	
-	@Test(enabled=true)
+	@Test(enabled=false)
     public void flightBookingTest() {
         
 		//Part 1
@@ -68,7 +68,7 @@ public class TravelocityTests extends WebAutomationTestNGSuite<TravelocityHome> 
 	
     }
 	
-	@Test(enabled=false)
+	@Test(enabled=true)
 	public void flightBookingWithHotelAndCarTest()
 	{
 		//Part 1
@@ -84,6 +84,8 @@ public class TravelocityTests extends WebAutomationTestNGSuite<TravelocityHome> 
         Assert.assertEquals(result.getTitle(), "Los Angeles (and vicinity) Hotel Search Results | Travelocity");
         Assert.assertEquals(result.getOrigin(), "Las Vegas, NV, United States (LAS-All Airports)");
         Assert.assertEquals(result.getDestination(), "Los Angeles (and vicinity),Los Angeles (and vicinity)");
+        Assert.assertEquals(result.getSectionHeader(), "Start by choosing your hotel");
+        Assert.assertEquals(result.getActiveTabText(), "Hotel");
 	}
 	
 	@Test(enabled=false)

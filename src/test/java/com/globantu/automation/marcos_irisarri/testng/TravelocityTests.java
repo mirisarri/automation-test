@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.globantu.automation.marcos_irisarri.framework.runner.WebAutomationTestNGSuite;
+import com.globantu.automation.marcos_irisarri.pageobjects.FlightPlusHotelResultsPage;
 import com.globantu.automation.marcos_irisarri.pageobjects.FlightPlusHotelSearchForm;
 import com.globantu.automation.marcos_irisarri.pageobjects.FlightResultsPage;
 import com.globantu.automation.marcos_irisarri.pageobjects.FlightSearchForm;
@@ -72,13 +73,17 @@ public class TravelocityTests extends WebAutomationTestNGSuite<TravelocityHome> 
 	{
 		//Part 1
 		TravelocityHome home = getStartingPage();
-		
 		FlightPlusHotelSearchForm searchForm = home.clickOnFlightPlusHotelTab();
 		
-		LocalDate departDate = LocalDate.of(2017, 8, 3);
+		//Part 2
+		LocalDate departDate = LocalDate.of(2017, 5, 3);
         LocalDate returnDate = departDate.plusDays(13);
-        FlightResultsPage result = searchForm.doSearch("LAS", "LAX", departDate, returnDate, 1, 0);
+        FlightPlusHotelResultsPage result = searchForm.doSearch("LAS", "LAX", departDate, returnDate, 1, 0, 1);
 		
+        //Part 3
+        Assert.assertEquals(result.getTitle(), "Los Angeles (and vicinity) Hotel Search Results | Travelocity");
+        Assert.assertEquals(result.getOrigin(), "Las Vegas, NV, United States (LAS-All Airports)");
+        Assert.assertEquals(result.getDestination(), "Los Angeles (and vicinity),Los Angeles (and vicinity)");
 	}
 	
 	@Test(enabled=false)

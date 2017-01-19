@@ -6,7 +6,7 @@
       <class name="com.globantu.automation.marcos_irisarri.testng.TravelocityTests">
         <methods>
           <include name="tearDown"/>
-          <include name="flightBookingWithHotelAndCarTest"/>
+          <include name="flightBookingTest"/>
         </methods>
       </class> <!-- com.globantu.automation.marcos_irisarri.testng.TravelocityTests -->
     </classes>

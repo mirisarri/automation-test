@@ -25,7 +25,8 @@ public class FlightSearchForm extends PageObjectBase {
     @FindBy(id = "flight-returning")
     private WebElement txtReturn;
 
-    @FindBy(xpath="(//button[@type='button'])[6]")
+    //@FindBy(xpath="(//button[@type='button'])[6]")
+    @FindBy(css=".datepicker-paging.datepicker-next.btn-paging.btn-secondary.next")
 	private WebElement btnDatePickerNextMonth;
 	
 	@FindBy(id="flight-adults")

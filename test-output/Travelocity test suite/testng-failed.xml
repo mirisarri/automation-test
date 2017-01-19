@@ -7,9 +7,9 @@
     <classes>
       <class name="com.globantu.automation.marcos_irisarri.testng.TravelocityTests">
         <methods>
-          <include name="hotelSearchTest"/>
           <include name="tearDown"/>
           <include name="setUp"/>
+          <include name="flightBookingTest"/>
         </methods>
       </class> <!-- com.globantu.automation.marcos_irisarri.testng.TravelocityTests -->
     </classes>

@@ -2,6 +2,7 @@ com\globantu\automation\marcos_irisarri\testng\TravelocityTests.class
 com\globantu\automation\marcos_irisarri\pageobjects\FlightResultsPage.class
 com\globantu\automation\marcos_irisarri\pageobjects\FlightSearchForm.class
 com\globantu\automation\marcos_irisarri\pageobjects\TripDetails.class
+com\globantu\automation\marcos_irisarri\pageobjects\WhoIsTravellingPage.class
 com\globantu\automation\marcos_irisarri\pageobjects\HotelSearchForm.class
 com\globantu\automation\marcos_irisarri\pageobjects\FlightPlusHotelSearchForm.class
 com\globantu\automation\marcos_irisarri\pageobjects\HotelResultsPage.class

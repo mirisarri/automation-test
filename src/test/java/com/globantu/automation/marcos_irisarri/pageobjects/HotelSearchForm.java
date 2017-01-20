@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globantu.automation.marcos_irisarri.framework.web.PageObjectBase;
 
@@ -51,12 +53,14 @@ public class HotelSearchForm extends PageObjectBase {
 	public HotelResultsPage doSearch(String destination, LocalDate checkinDate, LocalDate checkOutDate, int rooms, int adults, int children) {
 
         type(txtDestination, destination);
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.className("main-suggestion")));
+        txtDestination.sendKeys(Keys.ENTER);
         
         //Validate check in date is before check out date
         Assert.assertTrue(checkinDate.isBefore(checkOutDate));
         
-      //  selectDateInDatePicker(txtCheckin, checkinDate, LocalDate.now());
-      //  selectDateInDatePicker(txtCheckout, checkOutDate, checkinDate);
+        selectDateInDatePicker(txtCheckin, checkinDate, LocalDate.now());
+        selectDateInDatePicker(txtCheckout, checkOutDate, checkinDate);
 
         selectByIndex(cmbRooms, rooms-1);
         selectByIndex(cmbAdults, adults-1);
@@ -82,12 +86,14 @@ public class HotelSearchForm extends PageObjectBase {
         //Select the day
         List<WebElement> days = getDriver().findElements(By.className("datepicker-cal-date"));
         for(WebElement day : days){
-        	if(new Integer(day.getAttribute("data-year")) == selectDate.getYear() && 
-        			new Integer(day.getAttribute("data-month")) == selectDate.getMonthValue() - 1 && 
-        			new Integer(day.getAttribute("data-day")) == selectDate.getDayOfMonth()){
-        		
-        		day.click();
-        		break;
+        	if(day.isEnabled()) {	
+        		if(new Integer(day.getAttribute("data-year")) == selectDate.getYear() && 
+	        			new Integer(day.getAttribute("data-month")) == selectDate.getMonthValue() - 1 && 
+	        			new Integer(day.getAttribute("data-day")) == selectDate.getDayOfMonth()){
+	        		
+	        		day.click();
+	        		break;
+	        	}
         	}
         }
 	}

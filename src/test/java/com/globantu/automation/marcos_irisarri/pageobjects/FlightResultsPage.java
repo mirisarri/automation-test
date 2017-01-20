@@ -72,26 +72,28 @@ public class FlightResultsPage extends PageObjectBase {
 	public boolean isSortedByDurationAsc() {
 		
 		List<WebElement> times = lstFlights.findElements(By.cssSelector(".primary.duration-emphasis"));
-		if(!times.isEmpty()){
-			
-			int prevHours = 0;
-			int prevMinutes = 0;
-			for(WebElement time : times) {
-				int newHours = new Integer(time.getText().split(" ")[0].split("h")[0]);
-				int newMinutes = new Integer(time.getText().split(" ")[1].split("m")[0]);
-				if(newHours < prevHours || (newHours == prevHours && newMinutes < prevMinutes)) {
-					return false;
-				}
-				prevHours = newHours;
-				prevMinutes = newMinutes;
+		
+		int prevHours = 0;
+		int prevMinutes = 0;
+		for(WebElement time : times) {
+			int newHours = new Integer(time.getText().split(" ")[0].split("h")[0]);
+			int newMinutes = new Integer(time.getText().split(" ")[1].split("m")[0]);
+			if(newHours < prevHours || (newHours == prevHours && newMinutes < prevMinutes)) {
+				return false;
 			}
+			prevHours = newHours;
+			prevMinutes = newMinutes;
 		}
 		return true;
 	}
 	
 	public void selectFlight(int numberInList) {
+		
+		getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.id("acol-interstitial")));
+		lstFlights = getDriver().findElement(By.id("flightModuleList"));
 		WebElement btnSelect = lstFlights.findElements(By.cssSelector(".btn-secondary.btn-action.t-select-btn")).get(numberInList-1);
-		click(btnSelect);
+		//click(btnSelect);
+		btnSelect.click();
 		getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'Finding return flights')]")));
 	}
 	

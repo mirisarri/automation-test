@@ -12,7 +12,8 @@ public class FlightSearchForm extends SearchFormBase {
 	
 	public FlightResultsPage doSearch(String origin, String destination, LocalDate departDate, LocalDate returnDate, int adults, int children) {
 
-        search(origin, destination, departDate, returnDate, adults, children);
+        fillForm(origin, destination, departDate, returnDate, adults, children);
+        clickSearch();
         return new FlightResultsPage(getDriver());
     }
 }

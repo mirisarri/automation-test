@@ -2,6 +2,7 @@ package com.globantu.automation.marcos_irisarri.pageobjects;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -41,17 +42,17 @@ public abstract class SearchFormBase extends PageObjectBase {
 	@FindBy(id = "search-button")
     private WebElement btnSearch;
 	
-	public SearchFormBase(WebDriver driver) {
+	protected SearchFormBase(WebDriver driver) {
         super(driver);
     }
 	
-	public void search(String origin, String destination, LocalDate departDate, LocalDate returnDate, int adults, int children) {
-        search(origin, destination, departDate, returnDate, adults, children, 0);
+	protected void fillForm(String origin, String destination, LocalDate departDate, LocalDate returnDate, int adults, int children) {
+        fillForm(origin, destination, departDate, returnDate, adults, children, 0);
     }
 	
-	public void search(String origin, String destination, LocalDate departDate, LocalDate returnDate, int adults, int children, int rooms) {
-
-        type(txtOrigin.get(0), origin);
+	protected void fillForm(String origin, String destination, LocalDate departDate, LocalDate returnDate, int adults, int children, int rooms) {
+		
+		type(txtOrigin.get(0), origin);
         type(txtDestination.get(0), destination);
         
         //Validate departure date is before return date
@@ -70,11 +71,9 @@ public abstract class SearchFormBase extends PageObjectBase {
         if(rooms > 0) {
         	selectByIndex(cmbRooms.get(0), rooms-1);
         }
-        
-        click(btnSearch);
     }
 	
-	private void selectDateInDatePicker(WebElement txtDate, LocalDate selectDate, LocalDate currentDateSelected){
+	protected void selectDateInDatePicker(WebElement txtDate, LocalDate selectDate, LocalDate currentDateSelected){
 		
 		//Display date picker
 		click(txtDate);
@@ -99,5 +98,20 @@ public abstract class SearchFormBase extends PageObjectBase {
 	        	}
         	}
         }
+	}
+	
+	protected void clickSearch() {
+		click(btnSearch);
+	}
+	
+	public String getErrorMessage() {
+		
+		try {
+			WebElement messageContainer = getDriver().findElement(By.cssSelector(".alert-message ul li a"));
+			return messageContainer.getText();
+		}
+		catch(NoSuchElementException e) {
+			return "";
+		}
 	}
 }

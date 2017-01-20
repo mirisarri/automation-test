@@ -1,5 +1,10 @@
 package com.globantu.automation.marcos_irisarri.pageobjects;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Locale;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +26,12 @@ public class FlightPlusHotelResultsPage extends PageObjectBase {
 	
 	@FindBy(className="msi-active-state")
 	private WebElement activeTab;
+	
+	@FindBy(css=".btn-sort.tab")
+	private List<WebElement> sortButtons;
+	
+	@FindBy(css="#resultsContainer article")
+	private List<WebElement> hotels;
 	
 	public FlightPlusHotelResultsPage(WebDriver driver) {
         super(driver);
@@ -46,42 +57,88 @@ public class FlightPlusHotelResultsPage extends PageObjectBase {
 	public String getActiveTabText() {
 		return activeTab.findElement(By.className("msi-label")).getText();
 	}
-	/*
+	
 	public void sortResults(String criteria) {
-		selectByVisibleText(cmbSort, criteria);
-		getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'Sorting by')]")));
+		
+		for (WebElement btnSort : sortButtons) {
+			if(btnSort.findElement(By.className("btn-label")).getText().equalsIgnoreCase(criteria)) {
+				click(btnSort);
+				break;
+			}
+		}
+		getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'Updating your results')]")));
 	}
 	
-	public boolean isSortedByDurationAsc() {
+	public boolean isSortedByPriceAsc() {
 		
-		List<WebElement> times = lstFlights.findElements(By.cssSelector(".primary.duration-emphasis"));
-		if(!times.isEmpty()){
-			
-			int prevHours = 0;
-			int prevMinutes = 0;
-			for(WebElement time : times) {
-				int newHours = new Integer(time.getText().split(" ")[0].split("h")[0]);
-				int newMinutes = new Integer(time.getText().split(" ")[1].split("m")[0]);
-				if(newHours < prevHours || (newHours == prevHours && newMinutes < prevMinutes)) {
+		try {
+			Thread.sleep(3000); //wait on sortResults not working
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		hotels = getDriver().findElements(By.cssSelector("#resultsContainer article"));
+		int prevPrice = 0;
+		for (WebElement hotelResult : hotels) {
+			if(hotelResult.getAttribute("data-automation").equals("organic")) {
+				String priceStr = hotelResult.findElement(By.cssSelector(".actualPrice.price.fakeLink")).getText();
+				int newPrice;
+				try {
+					newPrice = NumberFormat.getCurrencyInstance(Locale.US).parse(priceStr).intValue();
+				} catch (ParseException e) {
+					e.printStackTrace();
 					return false;
 				}
-				prevHours = newHours;
-				prevMinutes = newMinutes;
+				if(newPrice < prevPrice) {
+					return false;
+				}
+				prevPrice = newPrice;
 			}
 		}
 		return true;
 	}
 	
-	public void selectFlight(int numberInList) {
-		WebElement btnSelect = lstFlights.findElements(By.cssSelector(".btn-secondary.btn-action.t-select-btn")).get(numberInList-1);
-		click(btnSelect);
-		getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'Finding return flights')]")));
+	public RoomSelectPage selectFirstHotelWithStars(int numberOfStars) {
+		
+		boolean found = false;
+		String hotelName = "";
+		String stars = "";
+		String telephone = "";
+		String price = "";
+		
+		while(!found) {
+			
+			hotels = getDriver().findElements(By.cssSelector("#resultsContainer article"));
+			for (WebElement hotelResult : hotels) {
+				if(hotelResult.getAttribute("data-automation").equals("organic")) {
+					stars = hotelResult.findElement(By.className("starRating")).findElement(By.className("visuallyhidden")).getText();
+					if(Integer.valueOf(stars.substring(0, 1)) == numberOfStars) {
+						
+						hotelName = hotelResult.findElement(By.cssSelector(".hotelName.fakeLink")).getText();
+						telephone = hotelResult.findElement(By.cssSelector(".phone.secondary.gt-mobile")).findElement(By.className("no-wrap")).getText();
+						price = hotelResult.findElement(By.cssSelector(".actualPrice.price.fakeLink")).getText();
+						
+						click(hotelResult.findElement(By.className("flex-link")));
+						found = true;
+						break;
+					}
+				}	
+			}
+			
+			if(!found) {
+				//If notifications divs are shown wait for them to close
+				getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.className("notification")));
+				
+				//Check in next page
+				click(getDriver().findElement(By.className("pagination-next")));
+				getWait().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'Updating your results')]")));
+				try {
+					Thread.sleep(3000); //wait on sortResults not working
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return new RoomSelectPage(getDriver(), hotelName, stars, telephone, price);
 	}
-	
-	public TripDetails selectFlights(int departurePositionInList, int returnPositionInList)
-	{
-		selectFlight(departurePositionInList);
-		selectFlight(returnPositionInList);
-		return new TripDetails(getDriver());
-	}*/
 }

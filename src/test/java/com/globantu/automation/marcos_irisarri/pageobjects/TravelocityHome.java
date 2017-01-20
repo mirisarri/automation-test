@@ -19,6 +19,9 @@ public class TravelocityHome extends PageObjectBase {
 	@FindBy(id="primary-header-hotel")
 	private WebElement hotelsMenu;
 	
+	@FindBy(id="tab-cruise-tab")
+	private WebElement cruisesTab;
+	
 	public TravelocityHome(WebDriver driver){
 		super(driver);
         driver.navigate().to(TRAVELOCITY_URL);
@@ -37,5 +40,10 @@ public class TravelocityHome extends PageObjectBase {
 	public HotelSearchForm clickOnHotelsMenu() {
 		click(hotelsMenu);
 		return new HotelSearchForm(getDriver());
+	}
+	
+	public CruiseSearchForm clickOnCruisesTab() {
+		click(cruisesTab);
+		return new CruiseSearchForm(getDriver());
 	}
 }

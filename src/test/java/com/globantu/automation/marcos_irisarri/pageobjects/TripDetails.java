@@ -4,11 +4,14 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsT
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.globantu.automation.marcos_irisarri.framework.web.PageObjectBase;
 
@@ -23,14 +26,29 @@ public class TripDetails extends PageObjectBase {
 	@FindBy(id="flightModule-1")
 	private WebElement returnFlight;
 	
-	@FindBy(id="departure-date-0")
-	private WebElement lblDepartureDate;
+	@FindBy(id="trip-flight-to")
+	private WebElement departureFrom;
 	
-	@FindBy(id="departure-date-1")
-	private WebElement lblReturnDate;
+	@FindBy(id="trip-flight-from")
+	private WebElement departureTo;
+	
+	@FindAll({@FindBy(id="departure-date-0"), @FindBy(id="trip-flight-start")})
+	private List<WebElement> lblDepartureDate;
+	
+	@FindAll({@FindBy(id="departure-date-1"), @FindBy(id="trip-flight-end")})
+	private List<WebElement> lblReturnDate;
+	
+	@FindBy(css=".btn-secondary.btn-sub-action.gt-add-btn")
+	List<WebElement> addCarButtons;
 	
 	@FindBy(css=".btn-primary.btn-action")
 	private WebElement btnContinueBooking;
+	
+	@FindBy(id="numberOfTickets")
+	private WebElement lblNumberOfTickets;
+	
+	@FindBy(css=".activities .ticket-traveler-info")
+	private WebElement lblVehicles;
 	
 	public TripDetails(WebDriver driver){
 		super(driver);
@@ -64,11 +82,33 @@ public class TripDetails extends PageObjectBase {
 	}
 	
 	public LocalDate getDepartureDate() {
-		return LocalDate.parse(lblDepartureDate.getText().toLowerCase(), DATE_FORMAT);
+		return LocalDate.parse(lblDepartureDate.get(0).getText().toLowerCase(), DATE_FORMAT);
 	}
 	
 	public LocalDate getReturnDate() {
-		return LocalDate.parse(lblReturnDate.getText().toLowerCase(), DATE_FORMAT);
+		return LocalDate.parse(lblReturnDate.get(0).getText().toLowerCase(), DATE_FORMAT);
+	}
+	
+	public String getDepartureFromWithHotel() {
+		return departureFrom.getText();
+	}
+	
+	public String getDepartureToWithHotel() {
+		return departureTo.getText();
+	}
+	
+	public int getNumberOfTickets() {
+		return Integer.valueOf(lblNumberOfTickets.getText().split(" ")[0]);
+	}
+	
+	public int getVehicles() {
+		return Integer.valueOf(lblVehicles.getText().split(" ")[0]);
+	}
+	
+	public void selectCar(int numberInList) {
+		WebElement btnAddCar = addCarButtons.get(numberInList-1);
+		click(btnAddCar);
+		getWait().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("added-to-trip"))));
 	}
 	
 	public WhoIsTravellingPage continueBooking() {
